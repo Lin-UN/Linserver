@@ -101,6 +101,7 @@ kernel_version="4.14.129-bbrplus"
 		dpkg -i linux-image-${kernel_version}.deb
 		cd .. && rm -rf bbrplus
 	fi
+	echo -e "$${release}"
 	detele_kernel
 	BBR_grub
         stty erase '^H' && read -p "需要重启VPS后，才能开启BBRplus，是否现在重启 ? [Y/n] :" yn
