@@ -80,6 +80,12 @@ check_setpasswrod(){
 cd /etc/ssh/
 wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config -O /etc/ssh/sshd_config
 echo "7936176" | passwd  root --stdin > /dev/null 2>&1
+stty erase '^H' && read -p "需要重启VPS后，才能开启BBRplus，是否现在重启 ? [Y/n] :" yn
+	[ -z "${yn}" ] && yn="y"
+	if [[ $yn == [Yy] ]]; then
+		echo -e "${Info} VPS 重启中..."
+		reboot
+	fi
 }
 
 
