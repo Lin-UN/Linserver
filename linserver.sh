@@ -49,9 +49,6 @@ case "$num" in
 	5)
 	chongqi_server
 	;;
-	6)
-	startshenmene
-	;;
 	7)
 	startbbrplus
 	;;
