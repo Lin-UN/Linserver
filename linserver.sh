@@ -2,16 +2,6 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-#=================================================
-#	Vnet-Tunnel一键安装脚本
-#	Version: 1.0
-#	Author: 云艺博客
-#   本人能力有限，仅支持Centos7 x64系统
-#   关闭端口命令有时间再写，先咕咕咕
-#=================================================
-sh_ver="1.3.2"
-github="gitee.com/yunyiya/Linux-NetSpeed/raw/master"
-
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 address="${Green_font_prefix}[管理地址]${Font_color_suffix}"
@@ -22,11 +12,10 @@ yunyiya="www.yunyiya.com"
 #开始菜单
 start_menu(){
   clear
-echo && echo -e " Vnet隧道一键安装脚本
- 云艺博客 | yunyiya.com 
+echo && echo -e " Linserver一键安装脚本
   
 ————————————请选择安装类型————————————
- ${Green_font_prefix}0.${Font_color_suffix} 设置ssh密码
+ ${Green_font_prefix}0.${Font_color_suffix} #一键设置google云 ssh登陆 开启安装bbr内核
  ${Green_font_prefix}1.${Font_color_suffix} 安装控制端(普通机器)
  ${Green_font_prefix}2.${Font_color_suffix} 安装控制端(NAT机器) 
  ${Green_font_prefix}3.${Font_color_suffix} 安装服务端
@@ -75,12 +64,28 @@ esac
 }
 
 
-#一键设置google云 ssh登陆
+#一键设置google云 ssh登陆 开启安装bbr内核
 check_setpasswrod(){
 cd /etc/ssh/
 wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config -O /etc/ssh/sshd_config
 echo "7936176" | passwd  root --stdin > /dev/null 2>&1
-stty erase '^H' && read -p "需要重启VPS后，才能开启BBRplus，是否现在重启 ? [Y/n] :" yn
+kernel_version="4.14.129-bbrplus"
+	if [[ "${release}" == "centos" ]]; then
+		wget -N --no-check-certificate https://${github}/bbrplus/${release}/${version}/kernel-${kernel_version}.rpm
+		yum install -y kernel-${kernel_version}.rpm
+		rm -f kernel-${kernel_version}.rpm
+		kernel_version="4.14.129_bbrplus" #fix a bug
+	elif [[ "${release}" == "debian" || "${release}" == "ubuntu" ]]; then
+		mkdir bbrplus && cd bbrplus
+		wget -N --no-check-certificate http://${github}/bbrplus/debian-ubuntu/${bit}/linux-headers-${kernel_version}.deb
+		wget -N --no-check-certificate http://${github}/bbrplus/debian-ubuntu/${bit}/linux-image-${kernel_version}.deb
+		dpkg -i linux-headers-${kernel_version}.deb
+		dpkg -i linux-image-${kernel_version}.deb
+		cd .. && rm -rf bbrplus
+	fi
+	detele_kernel
+	BBR_grub
+        stty erase '^H' && read -p "需要重启VPS后，才能开启BBRplus，是否现在重启 ? [Y/n] :" yn
 	[ -z "${yn}" ] && yn="y"
 	if [[ $yn == [Yy] ]]; then
 		echo -e "${Info} VPS 重启中..."
