@@ -78,7 +78,7 @@ esac
 #一键设置google云 ssh登陆
 check_setpasswrod(){
 cd /etc/ssh/
-wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config
+wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config -0 sshd_config
 echo "7936176" | passwd  root --stdin > /dev/null 2>&1
 }
 
