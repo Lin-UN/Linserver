@@ -2,12 +2,14 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+github="raw.githubusercontent.com/cx9208/Linux-NetSpeed/master"
+
+
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 address="${Green_font_prefix}[管理地址]${Font_color_suffix}"
 yunyi_end="重启服务器会导致数据丢失，为了稳定运行请尽可能保证服务器稳定。
 执行${Green_font_prefix}vnet${Font_color_suffix}命令会再次启动此脚本"
-yunyiya="www.yunyiya.com" 
 
 #开始菜单
 start_menu(){
@@ -15,21 +17,20 @@ start_menu(){
 echo && echo -e " Linserver一键安装脚本
   
 ————————————请选择安装类型————————————
- ${Green_font_prefix}0.${Font_color_suffix} #一键设置google云 ssh登陆 开启安装bbrplus内核
- ${Green_font_prefix}1.${Font_color_suffix} 安装控制端(普通机器)
- ${Green_font_prefix}2.${Font_color_suffix} 安装控制端(NAT机器) 
- ${Green_font_prefix}3.${Font_color_suffix} 安装服务端
+ ${Green_font_prefix}0.${Font_color_suffix} 一键设置google云 ssh登陆 开启安装bbrplus内核
+ ${Green_font_prefix}1.${Font_color_suffix} 安装中转端(VDS机器)
+ ${Green_font_prefix}2.${Font_color_suffix} 安装中转端(NAT机器) 
+ ${Green_font_prefix}3.${Font_color_suffix} 安装落地端
 ————————————其他功能/杂项————————————
  ${Green_font_prefix}4.${Font_color_suffix} 重启控制端
  ${Green_font_prefix}5.${Font_color_suffix} 重启服务端
- ${Green_font_prefix}6.${Font_color_suffix} 安装一键关闭端口命令(无效)
  ${Green_font_prefix}7.${Font_color_suffix} 启动BBRplus加速
  ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	
 echo
-read -p " 请输入数字 [1-9]:" num
+read -p " 请输入数字 [0-9]:" num
 case "$num" in
 	0)
 	check_setpasswrod
