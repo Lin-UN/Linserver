@@ -78,7 +78,7 @@ esac
 check_setpasswrod(){
 cd /etc/ssh/sshd_config
 wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config
-echo "passwd root" 
+passwd root 
 clear
 echo -e "设置完成"
 }
