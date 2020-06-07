@@ -15,7 +15,7 @@ start_menu(){
 echo && echo -e " Linserver一键安装脚本
   
 ————————————请选择安装类型————————————
- ${Green_font_prefix}0.${Font_color_suffix} #一键设置google云 ssh登陆 开启安装bbr内核
+ ${Green_font_prefix}0.${Font_color_suffix} #一键设置google云 ssh登陆 开启安装bbrplus内核
  ${Green_font_prefix}1.${Font_color_suffix} 安装控制端(普通机器)
  ${Green_font_prefix}2.${Font_color_suffix} 安装控制端(NAT机器) 
  ${Green_font_prefix}3.${Font_color_suffix} 安装服务端
@@ -23,6 +23,7 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}4.${Font_color_suffix} 重启控制端
  ${Green_font_prefix}5.${Font_color_suffix} 重启服务端
  ${Green_font_prefix}6.${Font_color_suffix} 安装一键关闭端口命令(无效)
+ ${Green_font_prefix}7.${Font_color_suffix} 启动BBRplus加速
  ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
@@ -50,6 +51,9 @@ case "$num" in
 	;;
 	6)
 	startshenmene
+	;;
+	7)
+	startbbrplus
 	;;
 	9)
 	exit 1
@@ -93,6 +97,14 @@ kernel_version="4.14.129-bbrplus"
 	fi
 }
 
+#启用BBRplus
+startbbrplus(){
+	remove_all
+	echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+	echo "net.ipv4.tcp_congestion_control=bbrplus" >> /etc/sysctl.conf
+	sysctl -p
+	echo -e "${Info}BBRplus启动成功！"
+}
 
 #安装普通控制端
 check_sys_clinet(){
