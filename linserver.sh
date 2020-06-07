@@ -78,7 +78,12 @@ esac
 check_setpasswrod(){
 cd /etc/ssh/
 wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config
-echo "7936176" | passwd root --stdin > /dev/null 2>&1
+#！/bin/bash
+#此脚本用于root账号密码修改
+echo root:要修改的密码|chpasswd
+#如果密码中包含 $ 字符，需要使用反斜线（\）进行转义
+例如：
+echo root:sbhibsdjkh123\$|chpasswd  
 }
 
 
