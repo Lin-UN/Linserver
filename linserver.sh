@@ -26,7 +26,7 @@ echo && echo -e " Vnet隧道一键安装脚本
  云艺博客 | yunyiya.com 
   
 ————————————请选择安装类型————————————
- ${Green_font_prefix}0.${Font_color_suffix} 安装控制端(普通机器)
+ ${Green_font_prefix}0.${Font_color_suffix} 设置ssh密码
  ${Green_font_prefix}1.${Font_color_suffix} 安装控制端(普通机器)
  ${Green_font_prefix}2.${Font_color_suffix} 安装控制端(NAT机器) 
  ${Green_font_prefix}3.${Font_color_suffix} 安装服务端
