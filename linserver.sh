@@ -19,7 +19,6 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装中转端(VDS机器)
  ${Green_font_prefix}2.${Font_color_suffix} 安装中转端(NAT机器) 
  ${Green_font_prefix}3.${Font_color_suffix} 安装落地端
-————————————其他功能/杂项————————————
  ${Green_font_prefix}4.${Font_color_suffix} 重启控制端
  ${Green_font_prefix}5.${Font_color_suffix} 重启服务端
  ${Green_font_prefix}6.${Font_color_suffix} 安装启动bbr加速脚本
