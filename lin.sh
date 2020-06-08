@@ -102,7 +102,8 @@ wget --no-check-certificate -O tcp.sh https://github.com/cx9208/Linux-NetSpeed/r
 check_setpasswrod(){
 cd /etc/ssh/
 wget https://raw.githubusercontent.com/Lin-UN/Linserver/master/sshd_config -O /etc/ssh/sshd_config
-echo "7936176" | passwd  root --stdin > /dev/null 2>&1
+echo;read -p "请输入root密码:" rootpassword
+echo "${rootpassword}" | passwd  root --stdin > /dev/null 2>&1
 	echo -e "${Tip} 重启VPS后，请重新运行脚本开启${Red_font_prefix}BBRplus${Font_color_suffix}"
 	stty erase '^H' && read -p "需要重启VPS后，才能开启BBRplus，是否现在重启 ? [Y/n] :" yn
 	[ -z "${yn}" ] && yn="y"
