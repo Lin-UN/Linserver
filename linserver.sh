@@ -148,6 +148,7 @@ check_sys_natclinet(){
 #安装服务端
 install_server(){
 	suidaoanquan
+    yum install psmisc
     wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" && unzip tunnel.zip && chmod -R +x ./*
     nohup ./server >> /dev/null 2>&1 &
 	clear
