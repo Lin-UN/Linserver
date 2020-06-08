@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 github="raw.githubusercontent.com/cx9208/Linux-NetSpeed/master"
-#2020年06月08日08:33:56
+#
 
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -14,7 +14,7 @@ yunyi_end="重启服务器会导致数据丢失，为了稳定运行请尽可能
 #开始菜单
 start_menu(){
   clear
-echo && echo -e " Linserver一键安装脚本
+echo && echo -e " Linserver一键安装脚本 2020年06月08日08:33:56
   
 ————————————请选择安装类型————————————
  ${Green_font_prefix}0.${Font_color_suffix} 一键设置google云 ssh登陆 开启安装bbrplus内核
