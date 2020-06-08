@@ -25,7 +25,8 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}6.${Font_color_suffix} 安装启动bbr加速脚本
  ${Green_font_prefix}7.${Font_color_suffix} 安装docker服务/重启
  ${Green_font_prefix}8.${Font_color_suffix} 启动dokerssr
- ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}9.${Font_color_suffix} 启动dokerssr/后端多节点&承载8命令端口
+ ${Green_font_prefix}15.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	
@@ -60,6 +61,9 @@ case "$num" in
 	dockerstartssr
 	;;
 	9)
+	dockerstartssrs
+	;;
+	15)
 	exit 1
 	;;
 	*)
@@ -77,12 +81,17 @@ docker version > /dev/null || curl -fsSL get.docker.com | bash
 service docker restart
 }
 
+#docker开启ssr
 dockerstartssr(){
 echo;read -p "请输入nodeid:" nodeid
 docker run -d --name=ssrmu -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://ins-cloud.xyz -e WEBAPI_TOKEN=NimaQu --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
 }
 
-
+#单机多节点
+dockerstartssrs(){
+echo;read -p "请输入nodeid:" nodeid
+docker run -d --name=ssrmus -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://ins-cloud.xyz -e SPEEDTEST=0 -e WEBAPI_TOKEN=NimaQu --log-opt max-size=50m --log-opt max-file=3 -p 557:556/tcp -p 557:556/udp  --restart=always fanvinga/docker-ssrmu
+}
 #安装bbr内核
 installbbrplus(){
 cd
