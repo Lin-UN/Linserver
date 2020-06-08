@@ -2,8 +2,8 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 github="raw.githubusercontent.com/cx9208/Linux-NetSpeed/master"
-#
-
+#release
+release
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -243,6 +243,8 @@ BBR_grub(){
     fi
 }
 
+#############系统检测组件#############
+
 #检查系统
 check_sys(){
 	if [[ -f /etc/redhat-release ]]; then
@@ -260,6 +262,186 @@ check_sys(){
 	elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
 		release="centos"
     fi
+}
+
+#检查Linux版本
+check_version(){
+	if [[ -s /etc/redhat-release ]]; then
+		version=`grep -oE  "[0-9.]+" /etc/redhat-release | cut -d . -f 1`
+	else
+		version=`grep -oE  "[0-9.]+" /etc/issue | cut -d . -f 1`
+	fi
+	bit=`uname -m`
+	if [[ ${bit} = "x86_64" ]]; then
+		bit="x64"
+	else
+		bit="x32"
+	fi
+}
+
+#检查安装bbr的系统要求
+check_sys_bbr(){
+	check_version
+	if [[ "${release}" == "centos" ]]; then
+		if [[ ${version} -ge "6" ]]; then
+			installbbr
+		else
+			echo -e "${Error} BBR内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "debian" ]]; then
+		if [[ ${version} -ge "8" ]]; then
+			installbbr
+		else
+			echo -e "${Error} BBR内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "ubuntu" ]]; then
+		if [[ ${version} -ge "14" ]]; then
+			installbbr
+		else
+			echo -e "${Error} BBR内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	else
+		echo -e "${Error} BBR内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+	fi
+}
+
+check_sys_bbrplus(){
+	check_version
+	if [[ "${release}" == "centos" ]]; then
+		if [[ ${version} -ge "6" ]]; then
+			installbbrplus
+		else
+			echo -e "${Error} BBRplus内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "debian" ]]; then
+		if [[ ${version} -ge "8" ]]; then
+			installbbrplus
+		else
+			echo -e "${Error} BBRplus内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "ubuntu" ]]; then
+		if [[ ${version} -ge "14" ]]; then
+			installbbrplus
+		else
+			echo -e "${Error} BBRplus内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	else
+		echo -e "${Error} BBRplus内核不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+	fi
+}
+
+
+#检查安装Lotsever的系统要求
+check_sys_Lotsever(){
+	check_version
+	if [[ "${release}" == "centos" ]]; then
+		if [[ ${version} == "6" ]]; then
+			kernel_version="2.6.32-504"
+			installlot
+		elif [[ ${version} == "7" ]]; then
+			yum -y install net-tools
+			kernel_version="3.10.0-327"
+			installlot
+		else
+			echo -e "${Error} Lotsever不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "debian" ]]; then
+		if [[ ${version} = "7" || ${version} = "8" ]]; then
+			if [[ ${bit} == "x64" ]]; then
+				kernel_version="3.16.0-4"
+				installlot
+			elif [[ ${bit} == "x32" ]]; then
+				kernel_version="3.2.0-4"
+				installlot
+			fi
+		elif [[ ${version} = "9" ]]; then
+			if [[ ${bit} == "x64" ]]; then
+				kernel_version="4.9.0-4"
+				installlot
+			fi
+		else
+			echo -e "${Error} Lotsever不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	elif [[ "${release}" == "ubuntu" ]]; then
+		if [[ ${version} -ge "12" ]]; then
+			if [[ ${bit} == "x64" ]]; then
+				kernel_version="4.4.0-47"
+				installlot
+			elif [[ ${bit} == "x32" ]]; then
+				kernel_version="3.13.0-29"
+				installlot
+			fi
+		else
+			echo -e "${Error} Lotsever不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+		fi
+	else
+		echo -e "${Error} Lotsever不支持当前系统 ${release} ${version} ${bit} !" && exit 1
+	fi
+}
+
+check_status(){
+	kernel_version=`uname -r | awk -F "-" '{print $1}'`
+	kernel_version_full=`uname -r`
+	if [[ ${kernel_version_full} = "4.14.129-bbrplus" ]]; then
+		kernel_status="BBRplus"
+	elif [[ ${kernel_version} = "3.10.0" || ${kernel_version} = "3.16.0" || ${kernel_version} = "3.2.0" || ${kernel_version} = "4.4.0" || ${kernel_version} = "3.13.0"  || ${kernel_version} = "2.6.32" || ${kernel_version} = "4.9.0" ]]; then
+		kernel_status="Lotserver"
+	elif [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "4" ]] && [[ `echo ${kernel_version} | awk -F'.' '{print $2}'` -ge 9 ]] || [[ `echo ${kernel_version} | awk -F'.' '{print $1}'` == "5" ]]; then
+		kernel_status="BBR"
+	else 
+		kernel_status="noinstall"
+	fi
+
+	if [[ ${kernel_status} == "Lotserver" ]]; then
+		if [[ -e /appex/bin/lotServer.sh ]]; then
+			run_status=`bash /appex/bin/lotServer.sh status | grep "LotServer" | awk  '{print $3}'`
+			if [[ ${run_status} = "running!" ]]; then
+				run_status="启动成功"
+			else 
+				run_status="启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	elif [[ ${kernel_status} == "BBR" ]]; then
+		run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
+		if [[ ${run_status} == "bbr" ]]; then
+			run_status=`lsmod | grep "bbr" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_bbr" ]]; then
+				run_status="BBR启动成功"
+			else 
+				run_status="BBR启动失败"
+			fi
+		elif [[ ${run_status} == "tsunami" ]]; then
+			run_status=`lsmod | grep "tsunami" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_tsunami" ]]; then
+				run_status="BBR魔改版启动成功"
+			else 
+				run_status="BBR魔改版启动失败"
+			fi
+		elif [[ ${run_status} == "nanqinlang" ]]; then
+			run_status=`lsmod | grep "nanqinlang" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_nanqinlang" ]]; then
+				run_status="暴力BBR魔改版启动成功"
+			else 
+				run_status="暴力BBR魔改版启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	elif [[ ${kernel_status} == "BBRplus" ]]; then
+		run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
+		if [[ ${run_status} == "bbrplus" ]]; then
+			run_status=`lsmod | grep "bbrplus" | awk '{print $1}'`
+			if [[ ${run_status} == "tcp_bbrplus" ]]; then
+				run_status="BBRplus启动成功"
+			else 
+				run_status="BBRplus启动失败"
+			fi
+		else 
+			run_status="未安装加速模块"
+		fi
+	fi
 }
 
 #############系统检测组件#############
