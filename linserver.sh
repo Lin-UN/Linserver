@@ -23,6 +23,8 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}4.${Font_color_suffix} 重启控制端
  ${Green_font_prefix}5.${Font_color_suffix} 重启服务端
  ${Green_font_prefix}6.${Font_color_suffix} 安装启动bbr加速脚本
+ ${Green_font_prefix}7.${Font_color_suffix} 安装docker服务/重启
+ ${Green_font_prefix}8.${Font_color_suffix} 启动dokerssr
  ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
@@ -49,10 +51,13 @@ case "$num" in
 	chongqi_server
 	;;
 	6)
-	check_installbbrplus
+	installbbrplus
 	;;
 	7)
-	startbbrplus
+	dockerinstallssr
+	;;
+	8)
+	dockerstartssr
 	;;
 	9)
 	exit 1
@@ -66,8 +71,20 @@ case "$num" in
 esac
 }
 
+#安装docker&&ssr
+dockerinstallssr(){
+docker version > /dev/null || curl -fsSL get.docker.com | bash
+service docker restart
+}
+
+dockerstartssr(){
+echo;read -p "请输入nodeid:" nodeid
+docker run -d --name=ssrmu -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://ins-cloud.xyz -e WEBAPI_TOKEN=NimaQu --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
+}
+
+
 #安装bbr内核
-check_installbbrplus(){
+installbbrplus(){
 cd
 wget --no-check-certificate -O tcp.sh https://github.com/cx9208/Linux-NetSpeed/raw/master/tcp.sh && chmod +x tcp.sh && ./tcp.sh
 }
