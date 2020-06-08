@@ -19,8 +19,8 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装中转端(VDS机器)
  ${Green_font_prefix}2.${Font_color_suffix} 安装中转端(NAT机器) 
  ${Green_font_prefix}3.${Font_color_suffix} 安装落地端
- ${Green_font_prefix}4.${Font_color_suffix} 重启控制端
- ${Green_font_prefix}5.${Font_color_suffix} 重启服务端
+ ${Green_font_prefix}4.${Font_color_suffix} 重启中转端
+ ${Green_font_prefix}5.${Font_color_suffix} 重启落地端
  ${Green_font_prefix}6.${Font_color_suffix} 安装启动bbr加速脚本
  ${Green_font_prefix}7.${Font_color_suffix} 安装docker服务/重启
  ${Green_font_prefix}8.${Font_color_suffix} 启动dokerssr
@@ -161,13 +161,17 @@ install_server(){
 #重启客户端
 chongqi_client(){
     cd /root
+    killall client
     nohup ./client >> /dev/null 2>&1 &
+    echo -e "已重启中转端"
 }
 
 #重启服务端
 chongqi_server(){
     cd /root
+    killall server
     nohup ./server >> /dev/null 2>&1 &
+    echo -e "已重启落地"
 }
 #防火墙和必要组件
 suidaoanquan(){
