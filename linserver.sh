@@ -79,6 +79,7 @@ esac
 dockerinstallssr(){
 docker version > /dev/null || curl -fsSL get.docker.com | bash
 service docker restart
+systemctl enable docker.service
 }
 
 #docker开启ssr
