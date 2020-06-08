@@ -150,7 +150,6 @@ install_server(){
 	suidaoanquan
     wget -N --no-check-certificate "https://${yunyiya}/download/linux/tunnel.zip" && unzip tunnel.zip && chmod -R +x ./*
     nohup ./server >> /dev/null 2>&1 &
-	echo "alias vnet=bash /root/vnet.sh" >> /root/.bashrc
 	clear
 	echo -e "服务端安装完成，请使用浏览器打开网址进行配置"
 	echo -e ${address}
@@ -161,15 +160,13 @@ install_server(){
 #重启客户端
 chongqi_client(){
     cd /root
-    killall client
     nohup ./client >> /dev/null 2>&1 &
 }
 
 #重启服务端
 chongqi_server(){
     cd /root
-    killall server
-	nohup ./server >> /dev/null 2>&1 &
+    nohup ./server >> /dev/null 2>&1 &
 }
 #防火墙和必要组件
 suidaoanquan(){
