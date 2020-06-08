@@ -116,7 +116,7 @@ echo "7936176" | passwd  root --stdin > /dev/null 2>&1
 #安装普通控制端
 check_sys_clinet(){
 	suidaoanquan
-    wget -N --no-check-certificate "https://${yunyiya}/download/linux/tunnel.zip" 
+    wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" 
 	unzip tunnel.zip
 	chmod -R +x ./*
     nohup ./client >> /dev/null 2>&1 &
@@ -133,7 +133,7 @@ check_sys_natclinet(){
 	echo;read -p "请设置管理端口(该端口将被占用):" portzhuanfa
     suidaoanquan
 	iptables -t nat -A PREROUTING -p tcp --dport ${portzhuanfa} -j REDIRECT --to-port 8080
-    wget -N --no-check-certificate "https://${yunyiya}/download/linux/tunnel.zip" 
+    wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" 
 	unzip tunnel.zip
 	chmod -R +x ./*
     nohup ./client >> /dev/null 2>&1 &
@@ -148,7 +148,7 @@ check_sys_natclinet(){
 #安装服务端
 install_server(){
 	suidaoanquan
-    wget -N --no-check-certificate "https://${yunyiya}/download/linux/tunnel.zip" && unzip tunnel.zip && chmod -R +x ./*
+    wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" && unzip tunnel.zip && chmod -R +x ./*
     nohup ./server >> /dev/null 2>&1 &
 	clear
 	echo -e "服务端安装完成，请使用浏览器打开网址进行配置"
