@@ -160,18 +160,29 @@ install_server(){
 
 #重启客户端
 chongqi_client(){
-    cd /root
+	stty erase '^H' && read -p "重启服务会丢失现有规则 ? [Y/n] :" yn
+	[ -z "${yn}" ] && yn="y"
+	if [[ $yn == [Yy] ]]; then
+		echo -e "${Info} 重启中..."
+		cd /root
     killall client
     nohup ./client >> /dev/null 2>&1 &
     echo -e "已重启中转端"
+	fi
 }
 
 #重启服务端
 chongqi_server(){
-    cd /root
-    killall server
-    nohup ./server >> /dev/null 2>&1 &
-    echo -e "已重启落地"
+
+	stty erase '^H' && read -p "重启服务会丢失现有规则 ? [Y/n] :" yn
+	[ -z "${yn}" ] && yn="y"
+	if [[ $yn == [Yy] ]]; then
+		echo -e "${Info} 重启中..."
+		cd /root
+		killall server
+		nohup ./server >> /dev/null 2>&1 &
+		echo -e "已重启落地"
+	fi
 }
 #防火墙和必要组件
 suidaoanquan(){
