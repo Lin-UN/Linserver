@@ -25,6 +25,8 @@ echo && echo -e " Linserver一键安装脚本
  ${Green_font_prefix}7.${Font_color_suffix} 安装docker服务/重启
  ${Green_font_prefix}8.${Font_color_suffix} 启动dokerssr
  ${Green_font_prefix}9.${Font_color_suffix} 启动dokerssr/后端多节点&承载8命令端口
+ ${Green_font_prefix}10.${Font_color_suffix} 查看正在运行的docker
+ ${Green_font_prefix}11.${Font_color_suffix} 查看正在运行的进程
  ${Green_font_prefix}15.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
@@ -60,7 +62,13 @@ case "$num" in
 	dockerstartssr
 	;;
 	9)
-	dockerstartssrs
+	dockerstartssr
+	;;
+	10)
+	dockernow
+	;;
+	11)
+	sssssss
 	;;
 	15)
 	exit 1
@@ -73,6 +81,18 @@ case "$num" in
 	;;
 esac
 }
+
+#查看正在运行的进程
+dockernow(){
+ps -elf
+}
+
+
+#查看正在运行的docker
+dockernow(){
+docker container ls
+}
+
 
 #安装docker&&ssr
 dockerinstallssr(){
@@ -117,6 +137,7 @@ echo "${rootpassword}" | passwd  root --stdin > /dev/null 2>&1
 #安装普通控制端
 check_sys_clinet(){
 	suidaoanquan
+	yum install psmisc
     wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" 
 	unzip tunnel.zip
 	chmod -R +x ./*
@@ -133,6 +154,7 @@ check_sys_clinet(){
 check_sys_natclinet(){
 	echo;read -p "请设置管理端口(该端口将被占用):" portzhuanfa
     suidaoanquan
+    yum install psmisc
 	iptables -t nat -A PREROUTING -p tcp --dport ${portzhuanfa} -j REDIRECT --to-port 8080
     wget -N --no-check-certificate "https://github.com/Lin-UN/Linserver/raw/master/tunnel.zip" 
 	unzip tunnel.zip
