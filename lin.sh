@@ -68,7 +68,7 @@ case "$num" in
 	dockernow
 	;;
 	11)
-	sssssss
+	pself
 	;;
 	15)
 	exit 1
@@ -83,7 +83,7 @@ esac
 }
 
 #查看正在运行的进程
-dockernow(){
+pself(){
 ps -elf
 }
 
@@ -142,8 +142,6 @@ check_sys_clinet(){
 	unzip tunnel.zip
 	chmod -R +x ./*
     nohup ./client >> /dev/null 2>&1 &
-	echo "alias vnet=bash /root/vnet.sh" >> /root/.bashrc
-	clear
     echo -e "控制端安装完成，请使用浏览器打开网址进行配置"
     echo -e ${address}
 	echo -e ${Green_font_prefix}"http://${SERVER_IP}:8080/resources/add_client.html"${Font_color_suffix}
@@ -160,8 +158,6 @@ check_sys_natclinet(){
 	unzip tunnel.zip
 	chmod -R +x ./*
     nohup ./client >> /dev/null 2>&1 &
-	echo "alias vnet=bash /root/vnet.sh" >> /root/.bashrc
-	clear
     echo -e "控制端安装完成，请使用浏览器打开网址进行配置"
 	echo -e ${address}
     echo -e ${Green_font_prefix}"http://${SERVER_IP}:${portzhuanfa}/resources/add_client.html"${Font_color_suffix}
