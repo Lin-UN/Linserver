@@ -62,7 +62,7 @@ case "$num" in
 	dockerstartssr
 	;;
 	9)
-	dockerstartssr
+	dockerstartssrs
 	;;
 	10)
 	dockernow
