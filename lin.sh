@@ -104,13 +104,13 @@ systemctl enable docker.service
 #docker开启ssr
 dockerstartssr(){
 echo;read -p "请输入nodeid:" nodeid
-docker run -d --name=ssrmu -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://ins-cloud.xyz -e WEBAPI_TOKEN=NimaQu --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
+docker run -d --name=ssrmu -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://xueyun.club -e WEBAPI_TOKEN=NimaQu --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
 }
 
 #单机多节点
 dockerstartssrs(){
 echo;read -p "请输入nodeid:" nodeid
-docker run -d --name=ssrmus -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://ins-cloud.xyz -e SPEEDTEST=0 -e WEBAPI_TOKEN=NimaQu --log-opt max-size=50m --log-opt max-file=3 -p 557:556/tcp -p 557:556/udp  --restart=always fanvinga/docker-ssrmu
+docker run -d --name=ssrmus -e NODE_ID=${nodeid} -e API_INTERFACE=modwebapi -e WEBAPI_URL=https://xueyun.club -e SPEEDTEST=0 -e WEBAPI_TOKEN=NimaQu --log-opt max-size=50m --log-opt max-file=3 -p 557:556/tcp -p 557:556/udp  --restart=always fanvinga/docker-ssrmu
 }
 #安装bbr内核
 installbbrplus(){
